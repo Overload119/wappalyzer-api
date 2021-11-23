@@ -2,7 +2,7 @@
 
 This repository contains a dockerized and 'API-fied' version of [Wappalyzer](https://github.com/AliasIO/Wappalyzer). It aims to make it available through an API endpoint you can call from anywhere.
 
-Pull the images from the Docker Hub to use the API right away: [https://hub.docker.com/r/hunterio/wappalyzer-api](https://hub.docker.com/r/hunterio/wappalyzer-api).
+Pull the images from the Docker Hub to use the API right away: [https://hub.docker.com/r/asharifr/wappalyzer-api](https://hub.docker.com/r/asharifr/wappalyzer-api).
 
 ## To build it:
 
