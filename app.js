@@ -30,12 +30,6 @@ const options = {
     'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.97 Safari/537.36',
 }
 
-// Optionally set additional request headers
-const wappalyzer = new Wappalyzer(options)
-
-let requests = 0
-const BROWSER_RESTART_THRESHOLD = 10
-
 app.get('/extract', async (req, res) => {
   let url = req.query.url
 
@@ -43,11 +37,10 @@ app.get('/extract', async (req, res) => {
     res.status(400).send('missing url query parameter')
     return
   }
+  const wappalyzer = new Wappalyzer(options)
 
   try {
-    if (wappalyzer.destroyed || !wappalyzer.browser) {
-      await wappalyzer.init()
-    }
+    await wappalyzer.init()
 
     // Optionally set additional request headers
     const headers = {}
@@ -59,10 +52,7 @@ app.get('/extract', async (req, res) => {
   } catch (error) {
     res.status(500).send(`${error}\n`)
   } finally {
-    requests++
-    if (requests >= BROWSER_RESTART_THRESHOLD) {
-      await wappalyzer.destroy()
-    }
+    await wappalyzer.destroy()
   }
 })
 
