@@ -14,7 +14,29 @@ app.get('/', (req, res) => {
   res.send('Wappalyzer API is ready! 🚀')
 })
 
-app.get('/extract', (req, res) => {
+const options = {
+  batchSize: 5,
+  debug: false,
+  delay: 500,
+  htmlMaxCols: 2000,
+  htmlMaxRows: 3000,
+  maxDepth: 3,
+  maxUrls: 10,
+  maxWait: 30000,
+  recursive: false,
+  probe: true,
+  noScripts: false,
+  userAgent:
+    'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.97 Safari/537.36',
+}
+
+// Optionally set additional request headers
+const wappalyzer = new Wappalyzer(options)
+
+let requests = 0
+const BROWSER_RESTART_THRESHOLD = 10
+
+app.get('/extract', async (req, res) => {
   let url = req.query.url
 
   if (url == undefined || url == '') {
@@ -22,31 +44,34 @@ app.get('/extract', (req, res) => {
     return
   }
 
-  const options = {
-    browser: 'puppeteer',
-    debug: false,
-    maxDepth: 1,
-    recursive: false,
-    maxWait: 20000,
-    userAgent: 'Wappalyzer',
-    htmlMaxCols: 2000,
-    htmlMaxRows: 2000,
-  }
+  try {
+    if (wappalyzer.destroyed || !wappalyzer.browser) {
+      await wappalyzer.init()
+    }
 
-  const wappalyzer = new Wappalyzer(url, options)
-  wappalyzer.analyze()
-    .then((json) => {
-      res.json(json)
-    })
-    .catch((error) => {
-      res.status(500).send(`${error}\n`)
-    })
+    // Optionally set additional request headers
+    const headers = {}
+
+    const site = await wappalyzer.open(url, headers)
+
+    const results = await site.analyze()
+    res.json(results)
+  } catch (error) {
+    res.status(500).send(`${error}\n`)
+  } finally {
+    requests++
+    if (requests >= BROWSER_RESTART_THRESHOLD) {
+      await wappalyzer.destroy()
+    }
+  }
 })
 
-app.listen(PORT, () => console.log(`Starting Wappalyzer on http://0.0.0.0:${PORT}`))
+app.listen(PORT, () =>
+  console.log(`Starting Wappalyzer on http://0.0.0.0:${PORT}`),
+)
 
 process.on('uncaughtException', function (err) {
-  console.error((new Date).toUTCString() + ' uncaughtException:', err.message)
+  console.error(new Date().toUTCString() + ' uncaughtException:', err.message)
   console.error(err.stack)
   process.exit(1)
 })

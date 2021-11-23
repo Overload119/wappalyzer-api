@@ -1,12 +1,12 @@
 FROM node:14-alpine
 
 ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD true
-ENV CHROME_BIN /usr/bin/chromium-browser
+ENV CHROMIUM_BIN /usr/bin/chromium-browser
 
 RUN apk update
 RUN apk add --no-cache \
 	nodejs \
-	nodejs-npm \
+	npm \
   udev \
   chromium \
   ttf-freefont \
