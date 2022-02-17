@@ -53,6 +53,7 @@ app.get('/extract', async (req, res) => {
     res.status(500).send(`${error}\n`)
   } finally {
     await wappalyzer.destroy()
+    wappalyzer.browser._process.pid
   }
 })
 

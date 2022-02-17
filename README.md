@@ -7,18 +7,22 @@ Pull the images from the Docker Hub to use the API right away: [https://hub.dock
 ## To build it:
 
 ```
-docker build -t asharifr/wappalyzer-api:6.9 .
-docker push asharifr/wappalyzer-api:6.9
-docker pull asharifr/wappalyzer-api:6.9
+docker build -t asharifr/wappalyzer-api:6.91 .
+docker push asharifr/wappalyzer-api:6.91
+docker pull asharifr/wappalyzer-api:6.91
 ```
 
 ## To run it:
 
 ```bash
 # Locally
-docker run -d -t -i -p 4000:3000 asharifr/wappalyzer-api:6.9
+docker run -d -t -i -p 4000:3000 asharifr/wappalyzer-api:6.91
+# Check requests
+docker attach <id>
+# Attach bash to the process
+docker exec -it <container name> /bin/sh
 # Remotely
-docker run -d -t -i -p 80:3000 asharifr/wappalyzer-api:6.9
+docker run -d -t -i -p 80:3000 asharifr/wappalyzer-api:6.91
 ```
 
 ## To use it:
@@ -26,6 +30,12 @@ docker run -d -t -i -p 80:3000 asharifr/wappalyzer-api:6.9
 ```
 curl 'localhost:4000/extract?url=https://drsquatch.com/'
 ```
+
+## Changelog
+
+### 6.91
+
+- Add `tini` to Docker image to avoid zombie processes.
 
 ## License:
 

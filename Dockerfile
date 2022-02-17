@@ -13,7 +13,8 @@ RUN apk add --no-cache \
   python3 \
   make \
   build-base \
-  git
+  git \
+  tini
 
 RUN mkdir /app && chown node /app
 USER 1000
@@ -24,6 +25,9 @@ RUN npm i
 
 ADD *.js /app/
 
+# Add Tini
+ENTRYPOINT ["/sbin/tini", "--"]
+
 RUN /usr/bin/chromium-browser --version
 
-ENTRYPOINT ["node", "app.js"]
+CMD ["node", "app.js"]
