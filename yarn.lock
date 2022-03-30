@@ -1463,10 +1463,10 @@ w3c-hr-time@^1.0.1:
   dependencies:
     browser-process-hrtime "^1.0.0"
 
-wappalyzer@6.9.2:
-  version "6.9.2"
-  resolved "https://registry.yarnpkg.com/wappalyzer/-/wappalyzer-6.9.2.tgz#b1934c919509842c2fb0e784efff5fddd2bef420"
-  integrity sha512-oPOUAG3bED4a0JtP25UJzjDJ5eJOm2MBOdfz1o3tPlQ1MxxhxS/OI7gAKEhGqdLz7IP/IiJtJ2r4VP/hQLgiwQ==
+wappalyzer@6.10.18:
+  version "6.10.18"
+  resolved "https://registry.yarnpkg.com/wappalyzer/-/wappalyzer-6.10.18.tgz#ed83016b0fcbd3d2bba3431f431e5dec61bd5810"
+  integrity sha512-7+BdPvW13e3/cJOTvzd6NTyLePuY18Lxq9ggmt55pMoSeuOiaDrva9sTSyPfOnMsWoXKWZlgrYuYPAqoZsQO3A==
   dependencies:
     puppeteer "^10.4.0"
 
