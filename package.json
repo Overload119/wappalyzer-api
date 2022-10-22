@@ -23,7 +23,7 @@
     "express": "^4.17.1",
     "morgan": "^1.10.0",
     "puppeteer": "^2.1.1",
-    "wappalyzer": "6.10.18",
+    "wappalyzer": "6.10.43",
     "zombie": "^6.1.4"
   },
   "peerDependencies": {
