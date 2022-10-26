@@ -7,31 +7,43 @@ Pull the images from the Docker Hub to use the API right away: [https://hub.dock
 ## To build it:
 
 ```
-docker build -t asharifr/wappalyzer-api:6.92 .
-docker push asharifr/wappalyzer-api:6.92
-docker pull asharifr/wappalyzer-api:6.92
+docker build -t asharifr/wappalyzer-api:6.94 .
+docker push asharifr/wappalyzer-api:6.94
+docker pull asharifr/wappalyzer-api:6.94
 ```
 
 ## To run it:
 
 ```bash
 # Locally
-docker run -d -t -i -p 4000:3000 asharifr/wappalyzer-api:6.92
+docker run --name wappalyzer -d -t -i -p 4000:3000 asharifr/wappalyzer-api:6.94
 # Check requests
-docker attach <id>
+docker attach wappalyzer
 # Attach bash to the process
-docker exec -it <container name> /bin/sh
+docker exec -it wappalyzer /bin/sh
 # Remotely
-docker run -d -t -i -p 80:3000 asharifr/wappalyzer-api:6.92
+docker run -d -t -i -p 80:3000 asharifr/wappalyzer-api:6.94
+# Stress-test
+hey -n 100 -c 4 -q 6 -z 2m 'http://localhost:4000/extract?url=https://drsquatch.com/'
 ```
 
 ## To use it:
 
 ```
-curl 'localhost:4000/extract?url=https://drsquatch.com/'
+curl 'http://localhost:4000/extract?url=https://drsquatch.com/'
 ```
 
 ## Changelog
+
+### 6.94
+
+- Better support for killing Chromium zombie processes if Wappalyzer does not destroy it.
+- Use `cluster` to support more than 1 CPU.
+- Support `recursive` as a query parameter.
+
+### 6.93
+
+- Upgrade Wappalyzer version from 6.10.18 -> 6.10.41
 
 ### 6.92
 
